@@ -1,16 +1,22 @@
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { Mail, Github, MessageCircle } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Mail, MessageCircle, Copy, Check } from 'lucide-react'
 
 const socials = [
-  { icon: Github, label: 'GitHub', href: '#', color: 'hover:text-white' },
-  { icon: MessageCircle, label: 'Discord', href: '#', color: 'hover:text-indigo-400' },
-  { icon: Mail, label: 'Email', href: '#', color: 'hover:text-cyan-400' },
+  { icon: MessageCircle, label: 'Discord', value: 'aresfnr', action: 'copy', color: 'hover:text-indigo-400' },
+  { icon: Mail, label: 'Email', href: 'mailto:aresfnrr@gmail.com', color: 'hover:text-cyan-400' },
 ]
 
 export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = (value) => {
+    navigator.clipboard.writeText(value)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <section id="contact" className="relative z-10 py-20 sm:py-28 px-4 sm:px-6">
@@ -35,26 +41,48 @@ export default function Contact() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {socials.map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white/50 ${social.color} transition-all duration-300`}
-                style={{
-                  background: 'rgba(10, 10, 30, 0.5)',
-                  backdropFilter: 'blur(10px)',
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: 'rgba(124, 58, 237, 0.3)',
-                  boxShadow: '0 0 20px rgba(124, 58, 237, 0.15)',
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <social.icon size={18} />
-                <span className="text-sm font-medium">{social.label}</span>
-              </motion.a>
-            ))}
+            {socials.map((social) =>
+              social.action === 'copy' ? (
+                <motion.button
+                  key={social.label}
+                  onClick={() => handleCopy(social.value)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white/50 ${social.color} transition-all duration-300 cursor-pointer`}
+                  style={{
+                    background: 'rgba(10, 10, 30, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    borderColor: 'rgba(124, 58, 237, 0.3)',
+                    boxShadow: '0 0 20px rgba(124, 58, 237, 0.15)',
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <social.icon size={18} />
+                  <span className="text-sm font-medium">{social.label}</span>
+                  {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} className="opacity-40" />}
+                </motion.button>
+              ) : (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white/50 ${social.color} transition-all duration-300`}
+                  style={{
+                    background: 'rgba(10, 10, 30, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    borderColor: 'rgba(124, 58, 237, 0.3)',
+                    boxShadow: '0 0 20px rgba(124, 58, 237, 0.15)',
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <social.icon size={18} />
+                  <span className="text-sm font-medium">{social.label}</span>
+                </motion.a>
+              )
+            )}
           </div>
         </motion.div>
       </div>
