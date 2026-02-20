@@ -28,14 +28,22 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-center lg:text-left"
         >
-          <motion.p
-            className="text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase text-purple-400 mb-3"
+          <motion.div
+            className="flex items-center gap-4 mb-5 justify-center lg:justify-start"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            Software Engineer
-          </motion.p>
+            <img
+              src="/pfp.png"
+              alt="Aresfnr"
+              className="w-14 h-14 rounded-full border-2 border-purple-500/50 object-cover"
+              style={{ boxShadow: '0 0 20px rgba(124, 58, 237, 0.3)' }}
+            />
+            <p className="text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase text-purple-400">
+              Software Engineer
+            </p>
+          </motion.div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-5">
             Aresfnr's{' '}
